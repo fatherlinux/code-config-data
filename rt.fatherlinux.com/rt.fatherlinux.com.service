@@ -1,0 +1,31 @@
+[Unit]
+Description=Podman container - rt.fatherlinux.com
+Documentation=man:podman-generate-systemd(1)
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/podman run -i --rm --read-only -p 8081:8081 --name rt.fatherlinux.com \
+-v /srv/rt.fatherlinux.com/code/reminders:/root/reminders:ro \
+-v /srv/rt.fatherlinux.com/config/rt.fatherlinux.com.conf:/etc/httpd/conf.d/rt.fatherlinux.com.conf:ro \
+-v /srv/rt.fatherlinux.com/config/MyConfig.pm:/root/.cpan/CPAN/MyConfig.pm:ro \
+-v /srv/rt.fatherlinux.com/config/RT_SiteConfig.pm:/opt/rt4/etc/RT_SiteConfig.pm:ro \
+-v /srv/rt.fatherlinux.com/config/root-crontab:/var/spool/cron/root:ro \
+-v /srv/rt.fatherlinux.com/config/aliases:/etc/aliases:ro \
+-v /srv/rt.fatherlinux.com/config/main.cf:/etc/postfix/main.cf:ro \
+-v /srv/rt.fatherlinux.com/data/mariadb:/var/lib/mysql:Z \
+-v /srv/rt.fatherlinux.com/data/logs/httpd:/var/log/httpd:Z \
+-v /srv/rt.fatherlinux.com/data/logs/rt4:/opt/rt4/var:Z \
+-v /srv/rt.fatherlinux.com/data/backups:/root/.backups:Z \
+--tmpfs /etc \
+--tmpfs /var/log/ \
+--tmpfs /var/tmp \
+--tmpfs /var/spool \
+--tmpfs /var/lib \
+localhost/rt:latest
+ExecStop=/usr/bin/podman stop -t 3 rt.fatherlinux.com
+ExecStopAfter=/usr/bin/podman rm -f rt.fatherlinux.com
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

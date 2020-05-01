@@ -1,0 +1,27 @@
+[Unit]
+Description=Podman container - learn.fatherlinux.com
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/podman run -i --read-only --rm -p 8080:80 --name learn.fatherlinux.com \
+-v /srv/learn.fatherlinux.com/code/mediawiki:/var/www/html/learn.fatherlinux.com:ro \
+-v /srv/learn.fatherlinux.com/config/LocalSettings.php:/var/www/html/learn.fatherlinux.com/LocalSettings.php:ro \
+-v /srv/learn.fatherlinux.com/config/learn.fatherlinux.com.conf:/etc/httpd/conf.d/learn.fatherlinux.com.conf:ro \
+-v /srv/learn.fatherlinux.com/config/htpasswd:/etc/httpd/conf.d/htpasswd:ro \
+-v /srv/learn.fatherlinux.com/config/root-crontab:/var/spool/cron/root:ro \
+-v /srv/learn.fatherlinux.com/data/mariadb/:/var/lib/mysql:Z \
+-v /srv/learn.fatherlinux.com/data/images/:/var/www/html/learn.fatherlinux.com/images:Z \
+-v /srv/learn.fatherlinux.com/data/skins/:/var/www/html/learn.fatherlinux.com/skins:Z \
+-v /srv/learn.fatherlinux.com/data/logs/httpd:/var/log/httpd:Z \
+-v /srv/learn.fatherlinux.com/data/backups/:/root/.backups:Z \
+--tmpfs /etc \
+--tmpfs /var/log/ \
+--tmpfs /var/tmp \
+localhost/httpd-php
+ExecStop=/usr/bin/podman stop -t 3 learn.fatherlinux.com
+ExecStopPost=/usr/bin/podman rm -f learn.fatherlinux.com
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

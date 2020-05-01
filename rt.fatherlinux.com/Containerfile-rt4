@@ -1,0 +1,94 @@
+FROM localhost/httpd-perl AS localhost/rt4-build
+MAINTAINER fatherlinux <scott.mccarty@gmail.com>
+RUN yum install -y expat-devel gcc mod_fcgid crontabs cronie mailx;yum clean all
+RUN cpan -i CPAN
+RUN cpan -i -f GnuPG::Interface
+RUN cpan -i DBIx::SearchBuilder \
+ExtUtils::Command::MM \
+Text::WikiFormat \
+Devel::StackTrace \
+Apache::Session \
+Module::Refresh \
+HTML::TreeBuilder \
+HTML::FormatText::WithLinks \
+HTML::FormatText::WithLinks::AndTables \
+Data::GUID \
+CGI::Cookie \
+DateTime::Format::Natural \
+Text::Password::Pronounceable \
+UNIVERSAL::require \
+JSON \
+DateTime \
+Net::CIDR \
+CSS::Minifier::XS \
+CGI \
+Devel::GlobalDestruction \
+Text::Wrapper \
+Net::IP \
+HTML::RewriteAttributes \
+Log::Dispatch \
+Plack \
+Regexp::Common::net::CIDR \
+Scope::Upper \
+CGI::Emulate::PSGI \
+HTML::Mason::PSGIHandler \
+HTML::Scrubber \
+HTML::Entities \
+HTML::Mason \
+File::ShareDir \
+Mail::Header \
+XML::RSS \
+List::MoreUtils \
+Plack::Handler::Starlet \
+IPC::Run3 \
+Email::Address \
+Role::Basic \
+MIME::Entity \
+Regexp::IPv6 \
+Convert::Color \
+Business::Hours \
+Symbol::Global::Name \
+MIME::Types \
+Locale::Maketext::Fuzzy \
+Tree::Simple \
+Clone \
+HTML::Quoted \
+Data::Page::Pageset \
+Text::Quoted \
+DateTime::Locale \
+HTTP::Message \
+Crypt::Eksblowfish \
+Data::ICal \
+Locale::Maketext::Lexicon \
+Time::ParseDate \
+Mail::Mailer \
+Email::Address::List \
+Date::Extract \
+CSS::Squish \
+Class::Accessor::Fast \
+LWP::Simple \
+Module::Versions::Report \
+Regexp::Common \
+Date::Manip \
+CGI::PSGI \
+JavaScript::Minifier::XS \
+FCGI \
+PerlIO::eol \
+GnuPG::Interface \
+LWP::UserAgent >= 6.02 \
+LWP::Protocol::https \
+String::ShellQuote \
+Crypt::X509
+RUN cd /root/rt-4.4.4;make testdeps;make install
+
+# Deploy
+FROM localhost/httpd-perl AS localhost/rt:4.4.4
+RUN yum install -y postfix mailx;yum clean all
+COPY --from=localhost/rt4-build /opt/rt4 /opt/rt4
+COPY --from=localhost/rt4-build /usr/lib64/perl5 /usr/lib64/perl5
+COPY --from=localhost/rt4-build /usr/share/perl5 /usr/share/perl5
+COPY --from=localhost/rt4-build /usr/local/share/perl5 /usr/local/share/perl5
+COPY --from=localhost/rt4-build /usr/local/lib64/perl5/ /usr/local/lib64/perl5/
+RUN chown -R root.bin /opt/rt4/lib;chown -R root.apache /opt/rt4/etc
+ENTRYPOINT ["/sbin/init"]
+CMD ["/sbin/init"]

@@ -1,0 +1,9 @@
+FROM registry.access.redhat.com/ubi8/ubi-init
+MAINTAINER fatherlinux <scott.mccarty@gmail.com>
+RUN yum install -y httpd mod_fcgid perl mariadb-server mariadb crontabs cronie iputils net-tools;yum clean all
+RUN systemctl enable mariadb
+RUN systemctl enable httpd
+RUN systemctl enable postfix
+RUN systemctl disable systemd-update-utmp.service
+ENTRYPOINT ["/sbin/init"]
+CMD ["/sbin/init"]

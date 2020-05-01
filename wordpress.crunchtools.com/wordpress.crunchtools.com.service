@@ -1,0 +1,23 @@
+[Unit]
+Description=Podman container - wordpress.crunchtools.com
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/podman run -i --read-only --rm -p 80:80 --name wordpress.crunchtools.com \
+-v /srv/wordpress.crunchtools.com/code/wordpress:/var/www/html/wordpress.crunchtools.com:Z \
+-v /srv/wordpress.crunchtools.com/config/wp-config.php:/var/www/html/wordpress.crunchtools.com/wp-config.php:ro \
+-v /srv/wordpress.crunchtools.com/config/wordpress.crunchtools.com.conf:/etc/httpd/conf.d/wordpress.crunchtools.com.conf:ro \
+-v /srv/wordpress.crunchtools.com/data/wp-content:/var/www/html/wordpress.crunchtools.com/wp-content:Z \
+-v /srv/wordpress.crunchtools.com/data/logs/httpd:/var/log/httpd:Z \
+-v /srv/wordpress.crunchtools.com/data/mariadb/:/var/lib/mysql:Z \
+--tmpfs /etc \
+--tmpfs /var/log/ \
+--tmpfs /var/tmp \
+localhost/httpd-php
+ExecStop=/usr/bin/podman stop -t 3 wordpress.crunchtools.com
+ExecStopAfter=/usr/bin/podman rm -f wordpress.crunchtools.com
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
