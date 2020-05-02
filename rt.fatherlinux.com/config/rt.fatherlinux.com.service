@@ -7,6 +7,7 @@ Type=simple
 ExecStart=/usr/bin/podman run -i --rm --read-only -p 8081:8081 --name rt.fatherlinux.com \
 -v /srv/rt.fatherlinux.com/code/reminders:/root/reminders:ro \
 -v /srv/rt.fatherlinux.com/config/rt.fatherlinux.com.conf:/etc/httpd/conf.d/rt.fatherlinux.com.conf:ro \
+-v /srv/rt.fatherlinux.com/config/htpasswd:/etc/httpd/conf.d/htpasswd:ro \
 -v /srv/rt.fatherlinux.com/config/MyConfig.pm:/root/.cpan/CPAN/MyConfig.pm:ro \
 -v /srv/rt.fatherlinux.com/config/RT_SiteConfig.pm:/opt/rt4/etc/RT_SiteConfig.pm:ro \
 -v /srv/rt.fatherlinux.com/config/root-crontab:/var/spool/cron/root:ro \
