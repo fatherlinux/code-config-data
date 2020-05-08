@@ -12,5 +12,4 @@
 0 5 01 * * /root/reminders/reminder /root/reminders/monthly_checklist.mail
 0 5 01 3,6,9,12 * /root/reminders/reminder /root/reminders/quarterly_checklist.mail
 0 5 01 1 * /root/reminders/reminder /root/reminders/annual_checklist.mail
-0 0 * * * /usr/bin/mysqldump rt4 > /root/.backups/rt4.sql
 0 4 * * * /usr/bin/mysqldump rt4 > /root/.backups/rt4.sql
