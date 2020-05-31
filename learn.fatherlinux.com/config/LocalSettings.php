@@ -29,7 +29,7 @@ $wgSitename = "Learn";
 $wgScriptPath = "";
 
 ## The protocol and server name to use in fully-qualified URLs
-$wgServer = "http://learn.fatherlinux.com:8080";
+$wgServer = "http://learn.fatherlinux.com:81";
 
 ## The URL path to static resources (images, scripts, etc.)
 $wgResourceBasePath = $wgScriptPath;
