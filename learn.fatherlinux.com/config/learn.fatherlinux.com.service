@@ -3,12 +3,12 @@ Description=Podman container - learn.fatherlinux.com
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/podman run -i --read-only --rm -p 81:80 --name learn.fatherlinux.com \
--v /srv/learn.fatherlinux.com/code/mediawiki:/var/www/html/learn.fatherlinux.com:ro \
--v /srv/learn.fatherlinux.com/config/LocalSettings.php:/var/www/html/learn.fatherlinux.com/LocalSettings.php:ro \
--v /srv/learn.fatherlinux.com/config/learn.fatherlinux.com.conf:/etc/httpd/conf.d/learn.fatherlinux.com.conf:ro \
--v /srv/learn.fatherlinux.com/config/htpasswd:/etc/httpd/conf.d/htpasswd:ro \
--v /srv/learn.fatherlinux.com/config/root-crontab:/var/spool/cron/root:ro \
+ExecStart=/usr/bin/podman run -i --read-only --rm -p 81:81 --name learn.fatherlinux.com \
+-v /srv/learn.fatherlinux.com/code/mediawiki:/var/www/html/learn.fatherlinux.com:ro,Z \
+-v /srv/learn.fatherlinux.com/config/LocalSettings.php:/var/www/html/learn.fatherlinux.com/LocalSettings.php:ro,Z \
+-v /srv/learn.fatherlinux.com/config/learn.fatherlinux.com.conf:/etc/httpd/conf.d/learn.fatherlinux.com.conf:ro,Z \
+-v /srv/learn.fatherlinux.com/config/htpasswd:/etc/httpd/conf.d/htpasswd:ro,Z \
+-v /srv/learn.fatherlinux.com/config/root-crontab:/var/spool/cron/root:ro,Z \
 -v /srv/learn.fatherlinux.com/data/mariadb/:/var/lib/mysql:Z \
 -v /srv/learn.fatherlinux.com/data/images/:/var/www/html/learn.fatherlinux.com/images:Z \
 -v /srv/learn.fatherlinux.com/data/skins/:/var/www/html/learn.fatherlinux.com/skins:Z \
