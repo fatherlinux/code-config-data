@@ -43,6 +43,6 @@ Set( $Organization, 'rt.fatherlinux.com' );
 Set( $OwnerEmail, '' );
 Set( $SendmailPath, '/usr/sbin/sendmail' );
 Set( $WebDomain, 'rt.fatherlinux.com' );
-Set( $WebPort, '8081' );
+Set( $WebPort, '82' );
 Set( $rtname, 'rt.fatherlinux.com' );
 1;

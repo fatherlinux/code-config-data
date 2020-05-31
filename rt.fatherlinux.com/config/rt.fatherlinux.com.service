@@ -4,7 +4,7 @@ Documentation=man:podman-generate-systemd(1)
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/podman run -i --rm --read-only -p 8081:8081 --name rt.fatherlinux.com \
+ExecStart=/usr/bin/podman run -i --rm --read-only -p 82:82 --name rt.fatherlinux.com \
 -v /srv/rt.fatherlinux.com/code/reminders:/root/reminders:ro \
 -v /srv/rt.fatherlinux.com/config/rt.fatherlinux.com.conf:/etc/httpd/conf.d/rt.fatherlinux.com.conf:ro \
 -v /srv/rt.fatherlinux.com/config/htpasswd:/etc/httpd/conf.d/htpasswd:ro \

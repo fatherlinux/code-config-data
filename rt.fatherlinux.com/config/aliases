@@ -94,9 +94,9 @@ decode:		root
 
 # Person who should get root's mail
 #root:		marc
-auto:         "|/opt/rt4/bin/rt-mailgate --queue Auto --action correspond --url http://rt.fatherlinux.com:8081"
-auto-comment: "|/opt/rt4/bin/rt-mailgate --queue Auto --action comment --url http://rt.fatherlinux.com:8081"
-residential:         "|/opt/rt4/bin/rt-mailgate --queue 'Residential' --action correspond --url http://rt.fatherlinux.com:8081"
-residential-comment: "|/opt/rt4/bin/rt-mailgate --queue 'Residential' --action comment --url http://rt.fatherlinux.com:8081"
-professional:         "|/opt/rt4/bin/rt-mailgate --queue 'Professional' --action correspond --url http://localhost:8081/"
-professional-comment: "|/opt/rt4/bin/rt-mailgate --queue 'Professional' --action comment --url http://localhost:8081/"
+auto:         "|/opt/rt4/bin/rt-mailgate --queue Auto --action correspond --url http://rt.fatherlinux.com:82"
+auto-comment: "|/opt/rt4/bin/rt-mailgate --queue Auto --action comment --url http://rt.fatherlinux.com:82"
+residential:         "|/opt/rt4/bin/rt-mailgate --queue 'Residential' --action correspond --url http://rt.fatherlinux.com:82"
+residential-comment: "|/opt/rt4/bin/rt-mailgate --queue 'Residential' --action comment --url http://rt.fatherlinux.com:82"
+professional:         "|/opt/rt4/bin/rt-mailgate --queue 'Professional' --action correspond --url http://localhost:82/"
+professional-comment: "|/opt/rt4/bin/rt-mailgate --queue 'Professional' --action comment --url http://localhost:82/"
