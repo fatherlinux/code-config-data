@@ -7,6 +7,7 @@ ExecStart=/usr/bin/podman run -i --read-only --rm -p 80:80 --name wordpress.crun
 -v /srv/wordpress.crunchtools.com/code/wordpress:/var/www/html/wordpress.crunchtools.com:Z \
 -v /srv/wordpress.crunchtools.com/config/wp-config.php:/var/www/html/wordpress.crunchtools.com/wp-config.php:ro,Z \
 -v /srv/wordpress.crunchtools.com/config/wordpress.crunchtools.com.conf:/etc/httpd/conf.d/wordpress.crunchtools.com.conf:ro,Z \
+-v /srv/wordpress.crunchtools.com/config/php.ini:/etc/php.ini:ro,Z \
 -v /srv/wordpress.crunchtools.com/data/wp-content:/var/www/html/wordpress.crunchtools.com/wp-content:Z \
 -v /srv/wordpress.crunchtools.com/data/logs/httpd:/var/log/httpd:Z \
 -v /srv/wordpress.crunchtools.com/data/mariadb/:/var/lib/mysql:Z \
