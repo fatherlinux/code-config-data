@@ -120,7 +120,7 @@ define( 'WP_AUTO_UPDATE_CORE', 'minor' );
 define( 'WP_AUTO_UPDATE_CORE', false );
 
 // File Size
-//@ini_set( 'upload_max_size' , '12M' );
-//@ini_set( 'post_max_size', '13M');
+@ini_set( 'upload_max_size' , '64M' );
+@ini_set( 'post_max_size', '64M');
 //@ini_set( 'memory_limit', '15M' );
 
