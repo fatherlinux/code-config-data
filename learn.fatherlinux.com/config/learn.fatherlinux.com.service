@@ -3,6 +3,7 @@ Description=Podman container - learn.fatherlinux.com
 
 [Service]
 Type=simple
+ExecStartPre=/usr/bin/sleep 2
 ExecStart=/usr/bin/podman run -i --read-only --rm -p 81:81 --name learn.fatherlinux.com \
 -v /srv/learn.fatherlinux.com/code/mediawiki:/var/www/html/learn.fatherlinux.com:ro,Z \
 -v /srv/learn.fatherlinux.com/config/LocalSettings.php:/var/www/html/learn.fatherlinux.com/LocalSettings.php:ro,Z \
