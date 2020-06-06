@@ -4,15 +4,16 @@ Documentation=man:podman-generate-systemd(1)
 
 [Service]
 Type=simple
+ExecStartPre=/usr/bin/sleep 1.5
 ExecStart=/usr/bin/podman run -i --rm --read-only -p 82:82 --name rt.fatherlinux.com \
--v /srv/rt.fatherlinux.com/code/reminders:/root/reminders:ro \
--v /srv/rt.fatherlinux.com/config/rt.fatherlinux.com.conf:/etc/httpd/conf.d/rt.fatherlinux.com.conf:ro \
--v /srv/rt.fatherlinux.com/config/htpasswd:/etc/httpd/conf.d/htpasswd:ro \
--v /srv/rt.fatherlinux.com/config/MyConfig.pm:/root/.cpan/CPAN/MyConfig.pm:ro \
--v /srv/rt.fatherlinux.com/config/RT_SiteConfig.pm:/opt/rt4/etc/RT_SiteConfig.pm:ro \
--v /srv/rt.fatherlinux.com/config/root-crontab:/var/spool/cron/root:ro \
--v /srv/rt.fatherlinux.com/config/aliases:/etc/aliases:ro \
--v /srv/rt.fatherlinux.com/config/main.cf:/etc/postfix/main.cf:ro \
+-v /srv/rt.fatherlinux.com/code/reminders:/root/reminders:ro,Z \
+-v /srv/rt.fatherlinux.com/config/rt.fatherlinux.com.conf:/etc/httpd/conf.d/rt.fatherlinux.com.conf:ro,Z \
+-v /srv/rt.fatherlinux.com/config/htpasswd:/etc/httpd/conf.d/htpasswd:ro,Z \
+-v /srv/rt.fatherlinux.com/config/MyConfig.pm:/root/.cpan/CPAN/MyConfig.pm:ro,Z \
+-v /srv/rt.fatherlinux.com/config/RT_SiteConfig.pm:/opt/rt4/etc/RT_SiteConfig.pm:ro,Z \
+-v /srv/rt.fatherlinux.com/config/root-crontab:/var/spool/cron/root:ro,Z \
+-v /srv/rt.fatherlinux.com/config/aliases:/etc/aliases:ro,Z \
+-v /srv/rt.fatherlinux.com/config/main.cf:/etc/postfix/main.cf:ro,Z \
 -v /srv/rt.fatherlinux.com/data/mariadb:/var/lib/mysql:Z \
 -v /srv/rt.fatherlinux.com/data/logs/httpd:/var/log/httpd:Z \
 -v /srv/rt.fatherlinux.com/data/logs/rt4:/opt/rt4/var:Z \
