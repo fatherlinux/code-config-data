@@ -8,6 +8,7 @@ ExecStart=/usr/bin/podman run -i --read-only --rm -p 81:81 --name learn.fatherli
 -v /srv/learn.fatherlinux.com/code/mediawiki:/var/www/html/learn.fatherlinux.com:ro,Z \
 -v /srv/learn.fatherlinux.com/config/LocalSettings.php:/var/www/html/learn.fatherlinux.com/LocalSettings.php:ro,Z \
 -v /srv/learn.fatherlinux.com/config/learn.fatherlinux.com.conf:/etc/httpd/conf.d/learn.fatherlinux.com.conf:ro,Z \
+-v /srv/learn.fatherlinux.com/config/php.ini:/etc/php.ini:ro,Z \
 -v /srv/learn.fatherlinux.com/config/htpasswd:/etc/httpd/conf.d/htpasswd:ro,Z \
 -v /srv/learn.fatherlinux.com/config/root-crontab:/var/spool/cron/root:ro,Z \
 -v /srv/learn.fatherlinux.com/data/mariadb/:/var/lib/mysql:Z \

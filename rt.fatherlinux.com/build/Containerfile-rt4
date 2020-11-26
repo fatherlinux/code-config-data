@@ -84,6 +84,7 @@ RUN cd /root/rt-4.4.4;make testdeps;make install
 # Deploy
 FROM localhost/httpd-perl AS localhost/rt:4.4.4
 RUN yum install -y postfix mailx;yum clean all
+RUN systemctl enable postfix
 COPY --from=localhost/rt4-build /opt/rt4 /opt/rt4
 COPY --from=localhost/rt4-build /usr/lib64/perl5 /usr/lib64/perl5
 COPY --from=localhost/rt4-build /usr/share/perl5 /usr/share/perl5
