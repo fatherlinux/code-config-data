@@ -1,0 +1,10 @@
+FROM registry.access.redhat.com/ubi8/ubi-init
+MAINTAINER fatherlinux <scott.mccarty@gmail.com>
+RUN yum module enable -y php:7.4
+RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+RUN yum install -y mariadb-server mariadb php php-apcu php-intl php-mbstring php-xml php-json php-mysqlnd php-gd php-pecl-zip zip ImageMagick crontabs cronie iputils net-tools;yum clean all
+RUN systemctl enable mariadb
+RUN systemctl enable httpd
+RUN systemctl disable systemd-update-utmp.service
+ENTRYPOINT ["/sbin/init"]
+CMD ["/sbin/init"]

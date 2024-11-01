@@ -119,8 +119,19 @@ define( 'WP_AUTO_UPDATE_CORE', 'minor' );
 // Core update disabled
 define( 'WP_AUTO_UPDATE_CORE', false );
 
-// File Size
-@ini_set( 'upload_max_size' , '64M' );
-@ini_set( 'post_max_size', '64M');
-//@ini_set( 'memory_limit', '15M' );
 
+# SM: 08/2023
+
+// upload files into standard directory
+define( 'UPLOADS', 'wp-content/files' );
+
+# SM: 10/2024
+
+// Trying to fix Updraft Restoration
+define( ‘WP_MEMORY_LIMIT’, ‘2048M’ );
+set_time_limit(900);
+
+// File Size
+@ini_set( 'upload_max_size' , '128M' );
+@ini_set( 'post_max_size', '128M');
+@ini_set( 'memory_limit', '128M' );

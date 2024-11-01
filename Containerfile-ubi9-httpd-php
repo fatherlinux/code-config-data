@@ -1,0 +1,9 @@
+FROM registry.access.redhat.com/ubi9/ubi-init
+MAINTAINER fatherlinux <scott.mccarty@gmail.com>
+RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+RUN yum install -y mariadb-server mariadb php php-apcu php-intl php-mbstring php-xml php-json php-mysqlnd php-gd php-pecl-zip zip ImageMagick php-pecl-imagick crontabs cronie iputils net-tools vim;yum clean all
+RUN systemctl enable mariadb
+RUN systemctl enable httpd
+RUN dnf repository-packages epel list --installed
+ENTRYPOINT ["/sbin/init"]
+CMD ["/sbin/init"]
