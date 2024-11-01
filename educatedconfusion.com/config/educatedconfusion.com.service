@@ -1,0 +1,24 @@
+[Unit]
+Description=Podman container - educatedconfusion.com
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/podman run -i --read-only --rm -p 172.105.101.80:80:80 --name educatedconfusion.com \
+-v /srv/educatedconfusion.com/code/wordpress:/var/www/html/educatedconfusion.com:Z \
+-v /srv/educatedconfusion.com/config/educatedconfusion.com.conf:/etc/httpd/conf.d/educatedconfusion.com.conf:ro,Z \
+-v /srv/educatedconfusion.com/config/wp-config.php:/var/www/html/educatedconfusion.com/wp-config.php:ro,Z \
+-v /srv/educatedconfusion.com/config/php.ini:/etc/php.ini:ro,Z \
+-v /srv/educatedconfusion.com/data/wp-content:/var/www/html/educatedconfusion.com/wp-content:Z \
+-v /srv/educatedconfusion.com/data/logs/httpd:/var/log/httpd:Z \
+-v /srv/educatedconfusion.com/data/mariadb/:/var/lib/mysql:Z \
+--tmpfs /etc \
+--tmpfs /var/log/ \
+--tmpfs /var/tmp \
+localhost/ubi9-httpd-php
+ExecStop=/usr/bin/podman stop -t 3 educatedconfusion.com
+ExecStopAfter=/usr/bin/podman rm -f educatedconfusion.com
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

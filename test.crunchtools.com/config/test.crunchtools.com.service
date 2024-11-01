@@ -1,0 +1,17 @@
+[Unit]
+Description=Podman container - test.crunchtools.com
+
+[Service]
+Type=simple
+
+# Firt start with wp-config in the "code/wordpress" directory
+ExecStart=/usr/bin/podman run -i --read-only --rm -p 172.105.19.17:8080:80 --name test.crunchtools.com -v /srv/test.crunchtools.com/code/wordpress:/var/www/html/test.crunchtools.com:Z -v /srv/test.crunchtools.com/config/test.crunchtools.com.conf:/etc/httpd/conf.d/test.crunchtools.com.conf:ro,Z -v /srv/test.crunchtools.com/config/php.ini:/etc/php.ini:ro,Z -v /srv/test.crunchtools.com/data/wp-content:/var/www/html/test.crunchtools.com/wp-content:Z -v /srv/test.crunchtools.com/data/logs/httpd:/var/log/httpd:Z -v /srv/test.crunchtools.com/data/mariadb/:/var/lib/mysql:Z --tmpfs /etc --tmpfs /var/log/ --tmpfs /var/tmp localhost/ubi9-httpd-php
+
+# For day two operations with read-only "config/wp-config.php"
+#ExecStart=/usr/bin/podman run -i --read-only --rm -p 172.105.19.17:8080:80 --name test.crunchtools.com -v /srv/test.crunchtools.com/code/wordpress:/var/www/html/test.crunchtools.com:Z -v /srv/test.crunchtools.com/config/test.crunchtools.com.conf:/etc/httpd/conf.d/test.crunchtools.com.conf:ro,Z -v /srv/test.crunchtools.com/config/wp-config.php:/var/www/html/test.crunchtools.com/wp-config.php:ro,Z -v /srv/test.crunchtools.com/config/php.ini:/etc/php.ini:ro,Z -v /srv/test.crunchtools.com/data/wp-content:/var/www/html/test.crunchtools.com/wp-content:Z -v /srv/test.crunchtools.com/data/logs/httpd:/var/log/httpd:Z -v /srv/test.crunchtools.com/data/mariadb/:/var/lib/mysql:Z --tmpfs /etc --tmpfs /var/log/ --tmpfs /var/tmp localhost/ubi9-httpd-php
+ExecStop=/usr/bin/podman stop -t 3 test.crunchtools.com
+ExecStopAfter=/usr/bin/podman rm -f test.crunchtools.com
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
