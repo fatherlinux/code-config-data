@@ -63,7 +63,7 @@ EOF
 
 ## Create systemd unit file
 
-cat > $1/config/$1.service<<EOF
+cat > $1/config/$1.service <<EOF
 [Unit]
 Description=Podman container - $1
 
@@ -71,7 +71,7 @@ Description=Podman container - $1
 Type=simple
 
 # Firt start with wp-config in the "code/wordpress" directory
-ExecStart=/usr/bin/podman run -i --read-only --rm -p 172.105.19.17:80:80 --name $1 \
+ExecStart=/usr/bin/podman run -i --read-only --rm -p 172.105.19.17:8080:80 --name $1 \
 -v /srv/$1/code/wordpress:/var/www/html/$1:Z \
 -v /srv/$1/config/$1.conf:/etc/httpd/conf.d/$1.conf:ro,Z \
 -v /srv/$1/config/php.ini:/etc/php.ini:ro,Z \
@@ -81,10 +81,10 @@ ExecStart=/usr/bin/podman run -i --read-only --rm -p 172.105.19.17:80:80 --name 
 --tmpfs /etc \
 --tmpfs /var/log/ \
 --tmpfs /var/tmp \
-localhost/ubi8-httpd-php
+localhost/ubi9-httpd-php
 
 # For day two operations with read-only "config/wp-config.php"
-#ExecStart=/usr/bin/podman run -i --read-only --rm -p 172.105.19.17:80:80 --name $1 \
+#ExecStart=/usr/bin/podman run -i --read-only --rm -p 172.105.19.17:8080:80 --name $1 \
 -v /srv/$1/code/wordpress:/var/www/html/$1:Z \
 -v /srv/$1/config/$1.conf:/etc/httpd/conf.d/$1.conf:ro,Z \
 -v /srv/$1/config/wp-config.php:/var/www/html/$1/wp-config.php:ro,Z \
@@ -95,7 +95,7 @@ localhost/ubi8-httpd-php
 --tmpfs /etc \
 --tmpfs /var/log/ \
 --tmpfs /var/tmp \
-localhost/ubi8-httpd-php
+localhost/ubi9-httpd-php
 ExecStop=/usr/bin/podman stop -t 3 $1
 ExecStopAfter=/usr/bin/podman rm -f $1
 Restart=always
@@ -106,7 +106,7 @@ EOF
 
 ## Create php.ini file
 
-cat > $1/config/php.ini<<EOF
+cat > $1/config/php.ini <<EOF
 [PHP]
 
 ;;;;;;;;;;;;;;;;;;;
@@ -1784,7 +1784,8 @@ EOF
 
 ## Create wp-config.php file
 
-cat > $1/config/wp-config.php<<EOF
+cat > $1/config/wp-config.php <<EOF
+
 <?php
 /**
  * The base configuration for WordPress
@@ -1819,7 +1820,7 @@ define( 'DB_PASSWORD', '' );
 define( 'DB_HOST', 'localhost' );
 
 /** Database charset to use in creating database tables. */
-define( 'DB_CHARSET', 'utf8mb4' );
+define( 'DB_CHARSET', 'utf8' );
 
 /** The database collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', '' );
@@ -1835,14 +1836,14 @@ define( 'DB_COLLATE', '' );
  *
  * @since 2.6.0
  */
-define( 'AUTH_KEY',         'WGA|9W!?W;~.}o;<rFVSVM=tXOGnP=-{=NDorS]FO><!6y:H2lntJYa#>QS284!9' );
-define( 'SECURE_AUTH_KEY',  '|^RmZ,J4A2{l51 ThpS)0m>]y|KyO&Yk|/arO:.&E-%_4V8HiX?=m`(spXo@T#AJ' );
-define( 'LOGGED_IN_KEY',    'Ny-!H;b9J B s=-5<`(O@?AOnc,*YEx!:]?P,Y9U:xJP2~*<aR?(XQ}y&xaH-)*_' );
-define( 'NONCE_KEY',        'UCJFz|6fIo3Dp},BBJv<!wkE_Q56WfIC;}`d4sK1Fi~H {L1J9C:R:R.Wgf:=Z;&' );
-define( 'AUTH_SALT',        '!ddbnRZX&ZE$gNaGr%&b+^Z8uX?Mu7O`07,>9`&6Lac[i%;M+@vi5c:Ccb^s39j0' );
-define( 'SECURE_AUTH_SALT', '/]{]uDQUP:pZA^lVaQf&Gzg}DQorTZG1?o^G8*2Rk#faOjv~M7tEY-Y{G^.[^C $' );
-define( 'LOGGED_IN_SALT',   'Grk3/x$HVkkyRtW!!6+N )/1V ?T/S1V<e~&k.I2L;DMCVwEdgG:RG{C}}=H1yzj' );
-define( 'NONCE_SALT',       'MG>;U%&AXOk1w-Ocxg-o;]?4;w?Gnx.+>c9Ij9*%Qr(ykKXvJxztof1gW-E_iuiF' );
+define( 'AUTH_KEY',         'put your unique phrase here' );
+define( 'SECURE_AUTH_KEY',  'put your unique phrase here' );
+define( 'LOGGED_IN_KEY',    'put your unique phrase here' );
+define( 'NONCE_KEY',        'put your unique phrase here' );
+define( 'AUTH_SALT',        'put your unique phrase here' );
+define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );
+define( 'LOGGED_IN_SALT',   'put your unique phrase here' );
+define( 'NONCE_SALT',       'put your unique phrase here' );
 
 /**#@-*/
 
@@ -1881,8 +1882,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';
-
-// Changes Made 10/28/2024 by Scott McCarty
 EOF
 
 # Create data directories
@@ -1896,3 +1895,23 @@ chown 27.27 $1/data/mariadb
 
 ## Copy files from wp-content
 rsync -av $1/code/wordpress/wp-content/ $1/data/wp-content/
+
+# Configure container to start
+/usr/bin/cp -f $1/config/$1.service /usr/lib/systemd/system/ 
+systemctl enable --now $1
+sleep 5
+
+# Final steps
+
+podman exec -i test.crunchtools.com mysql <<< "alter user 'root'@'localhost' identified by '';"
+podman exec -i test.crunchtools.com mysql <<< "create database wordpress;"
+podman exec -i test.crunchtools.com mysql <<< "show databases;"
+
+echo "Now run the wordpress installer at $1:8080:
+Databases Name: wordpress
+Username: root
+Password: LEAVE BLANK
+Database Host: localhost
+Table Prefix: wp_
+
+This will create wp-config.php and populates correct tables in the database"
